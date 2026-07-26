@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using System.Data;
 
 namespace JobPilot.API.Data;
 
@@ -12,7 +11,7 @@ public class DbConnectionFactory
         _configuration = configuration;
     }
 
-    public IDbConnection CreateConnection()
+    public SqlConnection CreateConnection()
     {
         return new SqlConnection(
             _configuration.GetConnectionString("DefaultConnection"));

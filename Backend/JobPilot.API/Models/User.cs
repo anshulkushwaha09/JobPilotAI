@@ -11,6 +11,9 @@ public class User
     public string PasswordHash { get; set; } = string.Empty;
 
     public bool IsGoogleUser { get; set; }
+    public int RoleId { get; set; }
+    public string GoogleId { get; set; }
+    public string AuthProvider { get; set; }
 
     public bool IsAdmin { get; set; }
 

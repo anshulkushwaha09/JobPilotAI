@@ -1,6 +1,6 @@
 ﻿namespace JobPilot.API.DTOs.Response;
 
-public class LoginResponse
+public class AuthResponse
 {
     public int UserId { get; set; }
 
@@ -10,7 +10,11 @@ public class LoginResponse
 
     public int RoleId { get; set; }
 
-    public string Token { get; set; } = string.Empty;
+    public string AccessToken { get; set; } = string.Empty;
+
+    public string RefreshToken { get; set; } = string.Empty;
 
     public DateTime Expiry { get; set; }
+
+    public bool IsNewUser { get; set; }
 }

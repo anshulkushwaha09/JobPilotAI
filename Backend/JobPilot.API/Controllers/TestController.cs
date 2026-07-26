@@ -1,18 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace JobPilot.API.Controllers;
+﻿
+using JobPilot.API.Services.Email.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/[controller]")]
-public class TestController : ControllerBase
+[Route("api/email")]
+public class EmailController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult Get()
+    private readonly IEmailService _emailService;
+
+    public EmailController(IEmailService emailService)
     {
-        return Ok(new
-        {
-            Success = true,
-            Message = "JobPilot API is running successfully."
-        });
+        _emailService = emailService;
+    }
+
+    [HttpPost("test")]
+    public async Task<IActionResult> Test(string email)
+    {
+        await _emailService.SendAsync(
+            email,
+            "JobPilot AI Test Email",
+            "<h2>Email Service Working Successfully 🚀</h2>");
+
+        return Ok("Email Sent");
     }
 }

@@ -579,3 +579,8 @@ CREATE TABLE JobMatches
 );
 
 
+ALTER TABLE Users
+ADD AuthProvider NVARCHAR(30) NOT NULL DEFAULT 'Local';
+
+ALTER TABLE Users
+ADD ProfilePictureUrl NVARCHAR(500) NULL;

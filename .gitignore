@@ -77,3 +77,10 @@ packages/
 ##############################
 
 TestResults/
+
+# SQL Server backups
+*.bak
+
+# Database backups
+Database/Backup/*
+!Database/Backup/.gitkeep

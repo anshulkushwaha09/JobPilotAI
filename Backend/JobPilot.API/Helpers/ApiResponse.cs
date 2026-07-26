@@ -1,4 +1,4 @@
-﻿namespace JobPilot.API.Common;
+﻿namespace JobPilot.API.Helpers;
 
 public class ApiResponse<T>
 {

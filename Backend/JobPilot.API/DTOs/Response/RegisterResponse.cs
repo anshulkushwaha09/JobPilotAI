@@ -1,16 +1,10 @@
 ﻿namespace JobPilot.API.DTOs.Response;
 
-public class LoginResponse
+public class RegisterResponse
 {
     public int UserId { get; set; }
 
     public string FullName { get; set; } = string.Empty;
 
     public string Email { get; set; } = string.Empty;
-
-    public int RoleId { get; set; }
-
-    public string Token { get; set; } = string.Empty;
-
-    public DateTime Expiry { get; set; }
 }
