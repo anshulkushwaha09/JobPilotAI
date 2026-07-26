@@ -1,0 +1,5 @@
+CREATE DATABASE JobPilotDB;
+GO
+
+USE JobPilotDB;
+GO
