@@ -1,0 +1,21 @@
+footer{
+
+height:60px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:8px;
+
+background:white;
+
+border-top:1px solid #e2e8f0;
+
+color:#64748b;
+
+font-size:14px;
+
+}

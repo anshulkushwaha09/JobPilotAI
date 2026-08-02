@@ -100,6 +100,16 @@ builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<JwtTokenHelper>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IResumeRepository, ResumeRepository>();
+
+builder.Services.AddScoped<IResumeService, ResumeService>();
+
+builder.Services.AddScoped<IFileService, FileService>();
+
+builder.Services.Configure<FileStorageSettings>(
+    builder.Configuration.GetSection("FileStorage"));
 
 // CORS
 builder.Services.AddCors(options =>

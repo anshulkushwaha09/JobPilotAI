@@ -511,3 +511,270 @@ BEGIN
     WHERE UserId = @UserId
       AND IsUsed = 0;
 END
+
+
+
+CREATE OR ALTER PROCEDURE sp_GetUserProfile
+(
+    @UserId INT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        U.UserId,
+        U.FullName,
+        U.Email,
+        U.ProfilePictureUrl,
+
+        UP.PhoneNumber,
+        UP.Experience,
+        UP.CurrentCompany,
+        UP.CurrentDesignation,
+        UP.CurrentCTC,
+        UP.ExpectedCTC,
+        UP.NoticePeriod,
+
+        UP.ResumeUrl,
+        UP.ResumeFileName,
+
+        UP.LinkedInUrl,
+        UP.GitHubUrl,
+        UP.PortfolioUrl
+
+    FROM Users U
+
+    INNER JOIN UserProfiles UP
+        ON U.UserId = UP.UserId
+
+    WHERE U.UserId = @UserId
+      AND U.IsActive = 1;
+END
+
+
+CREATE OR ALTER PROCEDURE sp_UpdateUserProfile
+(
+    @UserId INT,
+
+    @FullName NVARCHAR(150),
+
+    @PhoneNumber NVARCHAR(20),
+
+    @Experience DECIMAL(4,1),
+
+    @CurrentCompany NVARCHAR(150),
+
+    @CurrentDesignation NVARCHAR(150),
+
+    @CurrentCTC DECIMAL(18,2),
+
+    @ExpectedCTC DECIMAL(18,2),
+
+    @NoticePeriod INT,
+
+    @LinkedInUrl NVARCHAR(500),
+
+    @GitHubUrl NVARCHAR(500),
+
+    @PortfolioUrl NVARCHAR(500)
+)
+AS
+BEGIN
+
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+
+        BEGIN TRANSACTION;
+
+        UPDATE Users
+        SET
+            FullName = @FullName,
+            UpdatedOn = SYSUTCDATETIME()
+        WHERE UserId = @UserId;
+
+        UPDATE UserProfiles
+        SET
+            PhoneNumber = @PhoneNumber,
+            Experience = @Experience,
+            CurrentCompany = @CurrentCompany,
+            CurrentDesignation = @CurrentDesignation,
+            CurrentCTC = @CurrentCTC,
+            ExpectedCTC = @ExpectedCTC,
+            NoticePeriod = @NoticePeriod,
+            LinkedInUrl = @LinkedInUrl,
+            GitHubUrl = @GitHubUrl,
+            PortfolioUrl = @PortfolioUrl,
+            UpdatedOn = SYSUTCDATETIME()
+        WHERE UserId = @UserId;
+
+        COMMIT TRANSACTION;
+
+        SELECT 1 AS Success;
+
+    END TRY
+
+    BEGIN CATCH
+
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        SELECT 0 AS Success;
+
+    END CATCH
+
+END
+
+
+
+
+CREATE OR ALTER PROCEDURE sp_UploadResume
+(
+    @UserId INT,
+    @ResumeName NVARCHAR(250),
+    @ResumeUrl NVARCHAR(500),
+    @FileType NVARCHAR(20),
+    @FileSize BIGINT,
+    @ResumeText NVARCHAR(MAX),
+    @IsDefault BIT
+)
+AS
+BEGIN
+
+SET NOCOUNT ON;
+
+IF @IsDefault = 1
+BEGIN
+
+UPDATE Resume
+
+SET IsDefault = 0
+
+WHERE UserId = @UserId;
+
+END
+
+INSERT INTO Resume
+(
+    UserId,
+    ResumeName,
+    ResumeUrl,
+    FileType,
+    FileSize,
+    ResumeText,
+    IsDefault
+)
+VALUES
+(
+    @UserId,
+    @ResumeName,
+    @ResumeUrl,
+    @FileType,
+    @FileSize,
+    @ResumeText,
+    @IsDefault
+);
+
+SELECT SCOPE_IDENTITY() AS ResumeId;
+
+END
+
+
+
+CREATE OR ALTER PROCEDURE sp_GetUserResumes
+(
+    @UserId INT
+)
+AS
+BEGIN
+
+SELECT *
+
+FROM Resume
+
+WHERE UserId=@UserId
+
+AND IsDeleted=0
+
+ORDER BY UploadedOn DESC;
+
+END
+
+
+CREATE OR ALTER PROCEDURE sp_SetDefaultResume
+(
+    @ResumeId BIGINT,
+    @UserId INT
+)
+AS
+BEGIN
+
+UPDATE Resume
+
+SET IsDefault=0
+
+WHERE UserId=@UserId;
+
+UPDATE Resume
+
+SET IsDefault=1
+
+WHERE ResumeId=@ResumeId
+
+AND UserId=@UserId;
+
+END
+
+
+
+
+CREATE OR ALTER PROCEDURE sp_DeleteResume
+(
+    @ResumeId BIGINT,
+    @UserId INT
+)
+AS
+BEGIN
+
+UPDATE Resume
+
+SET
+
+IsDeleted=1,
+
+UpdatedOn=SYSUTCDATETIME()
+
+WHERE ResumeId=@ResumeId
+
+AND UserId=@UserId;
+
+END
+
+
+
+
+
+CREATE OR ALTER PROCEDURE sp_GetResumeById
+(
+@ResumeId BIGINT,
+@UserId INT
+)
+
+AS
+BEGIN
+
+
+SELECT *
+
+FROM Resume
+
+WHERE ResumeId=@ResumeId
+
+AND UserId=@UserId
+
+AND IsDeleted=0;
+
+
+END
+

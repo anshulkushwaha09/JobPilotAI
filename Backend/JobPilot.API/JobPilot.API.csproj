@@ -144,6 +144,7 @@
     <Folder Include="Common\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\Email\Interfaces\" />
+    <Folder Include="Storage\Users\1\Resume\" />
   </ItemGroup>
 
 </Project>

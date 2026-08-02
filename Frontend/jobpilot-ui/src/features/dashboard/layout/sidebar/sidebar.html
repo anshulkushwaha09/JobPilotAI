@@ -1,0 +1,107 @@
+<aside class="sidebar">
+
+    <div>
+
+        <div class="logo">
+
+            <div class="logo-icon">
+
+                🚀
+
+            </div>
+
+            <div>
+
+                <h2>JobPilot AI</h2>
+
+                <small>AI Job Assistant</small>
+
+            </div>
+
+        </div>
+
+        <nav>
+
+            @for(menu of menus;track menu.title){
+
+            <a
+
+            [routerLink]="menu.route"
+
+            routerLinkActive="active"
+
+            class="menu">
+
+                <span class="icon">
+
+                    {{menu.icon}}
+
+                </span>
+
+                <span>
+
+                    {{menu.title}}
+
+                </span>
+
+            </a>
+
+            }
+
+        </nav>
+
+    </div>
+
+    <div>
+
+        <div class="premium">
+
+            <h4>
+
+                ⭐ Premium
+
+            </h4>
+
+            <p>
+
+                Unlock unlimited AI job applications.
+
+            </p>
+
+            <button>
+
+                Upgrade
+
+            </button>
+
+        </div>
+
+        <div class="user">
+
+            <img
+
+            src="https://ui-avatars.com/api/?name=User"
+
+            alt="">
+
+            <div>
+
+                <strong>
+
+                    User
+
+                </strong>
+
+                <small>
+
+                    Software Engineer
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>

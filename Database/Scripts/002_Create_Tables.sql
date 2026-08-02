@@ -584,3 +584,13 @@ ADD AuthProvider NVARCHAR(30) NOT NULL DEFAULT 'Local';
 
 ALTER TABLE Users
 ADD ProfilePictureUrl NVARCHAR(500) NULL;
+
+
+ALTER TABLE Resume
+ADD
+    FileType NVARCHAR(50) NULL,
+    VersionNo INT NOT NULL DEFAULT 1,
+    IsDeleted BIT NOT NULL DEFAULT 0,
+    UpdatedOn DATETIME2 NULL;
+
+	
